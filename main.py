@@ -1,33 +1,9 @@
 from moviepy.editor import *
 from os.path import exists
-from os import mkdir
 from shutil import copyfile
 from colorama import Fore
 import pandas as pd
-from re import sub
-
-def toCamelCase(string):  
-    string = sub(r"(_|-)+", " ", string).title().replace(" ", "")  
-    return string[0].lower() + string[1:]  
-
-def createClip(baseVideo, clipData):
-  name,startTime,endTime = clipData
-  clip = baseVideo.subclip(startTime, endTime)
-  fileName = toCamelCase(name) + '.mp4'
-  return [fileName, clip]
-
-def createClips(baseVideo, clipsData):
-    clips = map(lambda clipData: createClip(baseVideo, clipData), clipsData)
-    return clips
-
-def saveClips(clipsInfo):
-  mkdir('./out')
-  for index, clipInfo in enumerate(clipsInfo):
-    fileName, clip = clipInfo
-    print(Fore.BLUE + 'Creating ' + f"{index +1}_{fileName}")
-    print(Fore.WHITE)
-    clip.write_videofile(f"./out/{index +1}_{fileName}")
-    print(Fore.GREEN + fileName + 'created successfully')
+from clipsCreator import createClips, saveClips
 
 def clipsFileExists(clipsPath='./clips.csv'):
   if exists(clipsPath):
@@ -51,3 +27,6 @@ def main():
   saveClips(clipsInfo)
 
 main()
+
+
+# Next step: https://dev.to/ethand91/download-youtube-videos-with-python-4kp4
