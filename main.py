@@ -31,6 +31,11 @@ def main():
 
 main()
 
+# colorClip = ColorClip(size =(1080, 1920), color =[30, 30, 30], duration=10)
+# textClip = TextClip(spaced_text, font ="./resources/BebasNeue-Regular.ttf", fontsize = 47.5, color ="#fbbc09")
+# textClip = textClip.set_position(("center","bottom")).set_duration(10)
 
+# reel = CompositeVideoClip([colorClip.set_start(0), textClip.set_start(0)])
+# reel.write_videofile('out.mp4', fps=30)
 
 # Next step: https://dev.to/ethand91/download-youtube-videos-with-python-4kp4
