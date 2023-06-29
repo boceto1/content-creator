@@ -1,6 +1,7 @@
 from utils import toCamelCase
 from os import mkdir
 from colorama import Fore
+from moviepy.editor import *
 
 def createClip(baseVideo, clipData):
   name,startTime,endTime = clipData
@@ -20,3 +21,20 @@ def saveClips(clipsInfo):
     print(Fore.WHITE)
     clip.write_videofile(f"./out/{index +1}_{fileName}")
     print(Fore.GREEN + fileName + 'created successfully')
+
+def createReel(clipInfo, endVideo):
+  fileName, clip = clipInfo
+  clipDuration = clip.duration
+
+  colorClip = ColorClip(size =(1080, 1920), color =[30, 30, 30], duration=clipDuration)
+
+  endVideo = VideoFileClip('./templates/endVideo.mp4')
+
+  reel = CompositeVideoClip([colorClip.set_start(0),
+                            clip.set_position(("center","center")).set_start(0),
+                            endVideo.set_start(clipDuration).crossfadein(1.5)])
+  
+  return [fileName, reel]
+
+def createReels(clipsInfo, endVideo):
+  return map(lambda clipInfo: createReel(clipInfo, endVideo), clipsInfo)
