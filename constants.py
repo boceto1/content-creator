@@ -19,7 +19,7 @@ REELS_DIMENSION = [1080, 1920]
 
 VIDEO_DIMENSION = [1080, 608]
 
-def getTopText(text): 
+def getTopTextClip(text): 
   return TextClip(
     text,
     font = OPEN_SANS_EXTRA_BOLD_FONT,
@@ -30,7 +30,7 @@ def getTopText(text):
     interline=1.4
   ).set_position((0.1,0.1), relative=True)
 
-def getBottomText(text):
+def getBottomTextClip(text):
   return TextClip(
     text,
     font = OPEN_SANS_EXTRA_BOLD_FONT,
@@ -41,4 +41,5 @@ def getBottomText(text):
     interline=1.4
   ).set_position((0.2,0.75), relative=True)
 
+# You can use MOCK CLIP in the following way: MOCK_CLIP.set_duration(clipDuration).set_position(("center","center")).set_start(0),
 MOCK_CLIP = ColorClip(size =(VIDEO_DIMENSION[0], VIDEO_DIMENSION[1]), color =[255,255,255])

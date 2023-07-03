@@ -1,39 +1,39 @@
 from utils import toCamelCase, createOutDir
 from colorama import Fore
 from moviepy.editor import *
-from constants import FOOTER_TEXT, REELS_DIMENSION, MOCK_CLIP, getTopText, getBottomText
+from constants import FOOTER_TEXT, REELS_DIMENSION, MOCK_CLIP, getTopTextClip, getBottomTextClip
 
 def createClip(baseVideo, clipData):
-  name,startTime,endTime = clipData
+  name,startTime,endTime, topText, bottomText = clipData
   clip = baseVideo.subclip(startTime, endTime)
   fileName = toCamelCase(name) + '.mp4'
-  return [fileName, clip]
+  text = [topText, bottomText]
+  return [fileName, clip, text]
 
 def createClips(baseVideo, clipsData):
     clips = map(lambda clipData: createClip(baseVideo, clipData), clipsData)
     return clips
 
 def createReel(clipInfo, endVideo):
-  fileName, clip = clipInfo
-  # clipDuration = clip.duration
-  clipDuration = 2
+  fileName, clip, text = clipInfo
+  topText, bottomText = text
+  clipDuration = clip.duration
 
   baseVideoShape = ColorClip(size =(REELS_DIMENSION[0], REELS_DIMENSION[1]), color =[30, 30, 30], duration=clipDuration)
 
   footerText = FOOTER_TEXT.set_duration(clipDuration)
-  topText = getTopText('Aprende a diferenciar los recursos que consumes').set_duration(clipDuration)
-  bottomText = getBottomText('según tu nivel de conocimiento o experiencia').set_duration(clipDuration)
+  topTextClip = getTopTextClip(topText).set_duration(clipDuration)
+  bottomTextClip = getBottomTextClip(bottomText).set_duration(clipDuration)
 
   endVideo = VideoFileClip('./templates/endVideo.mp4')
 
   reel = CompositeVideoClip([
     baseVideoShape.set_start(0),
-    MOCK_CLIP.set_duration(clipDuration).set_position(("center","center")).set_start(0),
-    # clip.set_position(("center","center")).set_start(0),
+    clip.set_position(("center","center")).set_start(0),
     footerText.set_start(0),
-    topText.set_start(0),
-    bottomText.set_start(0),
-    # endVideo.set_start(clipDuration).crossfadein(1.5)
+    topTextClip.set_start(0),
+    bottomTextClip.set_start(0),
+    endVideo.set_start(clipDuration).crossfadein(1.5)
   ])
   
   return [fileName, reel]
