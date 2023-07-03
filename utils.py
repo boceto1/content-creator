@@ -1,5 +1,6 @@
 from re import sub
-from moviepy.editor import ColorClip
+import shutil
+from os import mkdir, path
 
 def toCamelCase(string):  
     string = sub(r"(_|-)+", " ", string).title().replace(" ", "")  
@@ -8,5 +9,7 @@ def toCamelCase(string):
 def addWordSpacing(string, spacing=1):
     return (" "*spacing).join(list(string))
 
-
-mockClip = ColorClip(size =(1080, 608), color =[255,255,255])
+def createOutDir():
+  if path.exists('./out'):
+    shutil.rmtree('./out')
+  mkdir('./out')
