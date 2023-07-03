@@ -1,2 +1,2 @@
-title,startTime, endTime
-Clip1,831,950
+title,startTime, endTime, topText, bottomText
+Clip1,831,950,default top Text, default bottom Text
