@@ -1,22 +1,20 @@
 from utils import toCamelCase, createOutDir
 from colorama import Fore
 from moviepy.editor import *
-from constants import FOOTER_TEXT, REELS_DIMENSION, MOCK_CLIP, getTopTextClip, getBottomTextClip
+from constants import FOOTER_TEXT, REELS_DIMENSION, VIDEO_DIMENSION, getTopTextClip, getBottomTextClip
 
 def createClip(baseVideo, clipData):
-  name,startTime,endTime, topText, bottomText = clipData
+  startTime, endTime = clipData['time']
   clip = baseVideo.subclip(startTime, endTime)
-  fileName = toCamelCase(name) + '.mp4'
-  text = [topText, bottomText]
-  return [fileName, clip, text]
+  return clip
 
 def createClips(baseVideo, clipsData):
     clips = map(lambda clipData: createClip(baseVideo, clipData), clipsData)
     return clips
 
-def createReel(clipInfo, endVideo):
-  fileName, clip, text = clipInfo
-  topText, bottomText = text
+def createReel(clipWithInfo, endVideo):
+  clip, clipInfo = clipWithInfo
+  topText, bottomText = clipInfo['text']
   clipDuration = clip.duration
 
   baseVideoShape = ColorClip(size =(REELS_DIMENSION[0], REELS_DIMENSION[1]), color =[30, 30, 30], duration=clipDuration)
@@ -24,8 +22,6 @@ def createReel(clipInfo, endVideo):
   footerText = FOOTER_TEXT.set_duration(clipDuration)
   topTextClip = getTopTextClip(topText).set_duration(clipDuration)
   bottomTextClip = getBottomTextClip(bottomText).set_duration(clipDuration)
-
-  endVideo = VideoFileClip('./templates/endVideo.mp4')
 
   reel = CompositeVideoClip([
     baseVideoShape.set_start(0),
@@ -36,16 +32,28 @@ def createReel(clipInfo, endVideo):
     endVideo.set_start(clipDuration).crossfadein(1.5)
   ])
   
-  return [fileName, reel]
+  return reel
 
-def createReels(clipsInfo, endVideo):
-  return map(lambda clipInfo: createReel(clipInfo, endVideo), clipsInfo)
+def createReels(baseVideo, clipsInfo, endVideo):
+  clips = createClips(baseVideo, clipsInfo)
+  clipsWithInfo = zip(clips, clipsInfo)
+  reels = map(lambda clipWithInfo: createReel(clipWithInfo, endVideo), clipsWithInfo)
+  return reels
 
-def saveClips(clipsInfo):
-  createOutDir()
-  for index, clipInfo in enumerate(clipsInfo):
-    fileName, clip = clipInfo
-    print(Fore.BLUE + 'Creating ' + f"{index +1}_{fileName}")
+def saveClips(projectName, clipsInfo, reels):
+  dirName = toCamelCase(projectName)
+  createOutDir(f'./{dirName}')
+  for index, reel in enumerate(reels):
+    clipInfo = clipsInfo[index]
+    fileName = toCamelCase(clipInfo['name'])
+    print(Fore.BLUE + 'Creating ' + f"{index + 1}_{fileName}")
     print(Fore.WHITE)
-    clip.write_videofile(f"./out/{index +1}_{fileName}", fps=30)
+    reel.write_videofile(f"./{dirName}/{index +1}_{fileName}.mp4", fps=30)
     print(Fore.GREEN + fileName + 'created successfully')
+
+def generateReels(projectData):
+  baseVideo = VideoFileClip(projectData['baseVideo'])
+  endClip = VideoFileClip(projectData['endClip'])
+  resizedVideo = baseVideo.resize((VIDEO_DIMENSION[0], VIDEO_DIMENSION[1]))
+  reels = createReels(resizedVideo, projectData['clips'], endClip)
+  saveClips(projectData['projectName'], projectData['clips'], reels)

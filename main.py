@@ -1,20 +1,7 @@
-from moviepy.editor import *
-from clipsCreator import createClips, saveClips, createReels
-from infoLoader import clipsFileExists, getClipsData, createProjectFile, loadProjectFile
-from constants import VIDEO_DIMENSION
+from clipsCreator import generateReels
+from infoLoader import createProjectFile, loadProjectFile
 import sys, getopt
 from colorama import Fore
-
-def generateReels():
-  if (not clipsFileExists()):
-    return
-  baseVideo = VideoFileClip("test-video.mp4")
-  endVideo = VideoFileClip("./templates/endVideo.mp4")
-  resizedVideo = baseVideo.resize((VIDEO_DIMENSION[0], VIDEO_DIMENSION[1]))
-  clipsData = getClipsData()
-  clipsInfo = createClips(resizedVideo, clipsData)
-  reelsInfo = createReels(clipsInfo, endVideo)
-  saveClips(reelsInfo)
 
 def main():
   try:
@@ -28,7 +15,7 @@ def main():
         return
       elif arg == "-g" or arg == "--generate":
         projectData = loadProjectFile(value)
-        print(projectData)
+        generateReels(projectData)
         return
 
   except Exception as e:

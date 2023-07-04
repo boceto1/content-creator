@@ -17,10 +17,10 @@ def hex_to_rgb(hex_code):
     blue = int(hex_code[4:6], 16)  # Extract and convert the blue component
     return (red, green, blue)  # Return the RGB values as a tuple
 
-def createOutDir():
-  if path.exists('./out'):
-    shutil.rmtree('./out')
-  mkdir('./out')
+def createOutDir(outDirPath):
+  if path.exists(outDirPath):
+    shutil.rmtree(outDirPath)
+  mkdir(outDirPath)
 
 def loadJsonFile(path):
    with open(path, "r") as json_file:
