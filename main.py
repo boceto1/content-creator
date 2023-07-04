@@ -1,6 +1,6 @@
 from moviepy.editor import *
 from clipsCreator import createClips, saveClips, createReels
-from infoLoader import clipsFileExists, getClipsData, createProjectFile
+from infoLoader import clipsFileExists, getClipsData, createProjectFile, loadProjectFile
 from constants import VIDEO_DIMENSION
 import sys, getopt
 from colorama import Fore
@@ -24,12 +24,11 @@ def main():
 
     for arg, value in args:
       if arg == "-c" or arg == "--create":
-          # Handle create option
-          createProjectFile(value)
-          return
+        createProjectFile(value)
+        return
       elif arg == "-g" or arg == "--generate":
-        # Handle generate option
-        print("Generate option specified with value:", value)
+        projectData = loadProjectFile(value)
+        print(projectData)
         return
 
   except Exception as e:
