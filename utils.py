@@ -1,6 +1,7 @@
 from re import sub
 import shutil
 from os import mkdir, path
+import json
 
 def toCamelCase(string):  
     string = sub(r"(_|-)+", " ", string).title().replace(" ", "")  
@@ -20,3 +21,13 @@ def createOutDir():
   if path.exists('./out'):
     shutil.rmtree('./out')
   mkdir('./out')
+
+def loadJsonFile(path):
+   with open(path, "r") as json_file:
+    # Load the JSON data
+    json_data = json.load(json_file)
+    return json_data
+
+def createJsonFile(path, jsonData):
+   with open(path, "w") as json_file:
+    json.dump(jsonData, json_file, indent=2)

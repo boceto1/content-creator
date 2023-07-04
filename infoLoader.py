@@ -2,6 +2,23 @@ from os.path import exists
 from shutil import copyfile
 from colorama import Fore
 import pandas as pd
+from utils import loadJsonFile, createJsonFile, toCamelCase
+
+def createProjectFile(projectName):
+  parsedProjectName = toCamelCase(projectName)
+
+  print(Fore.BLUE + f'Creating Project File: {projectName}')
+  templateProject = loadJsonFile('./templates/projectTemplate.json')
+  templateProject['projectName'] = parsedProjectName
+  createJsonFile(f'./{parsedProjectName}.json', templateProject)
+  print(Fore.GREEN + f'Project File created successfully: {projectName}')
+
+def loadProjectFile(projectPath):
+  if exists(projectPath):
+    projectData = loadJsonFile(projectPath)
+    return projectData
+  else:
+    raise Exception('File does not exists')
 
 def clipsFileExists(clipsPath='./clips.csv'):
   if exists(clipsPath):
