@@ -1,25 +1,11 @@
 from moviepy.editor import *
-from os.path import exists
-from shutil import copyfile
-from colorama import Fore
-import pandas as pd
 from clipsCreator import createClips, saveClips, createReels
+from infoLoader import clipsFileExists, getClipsData
 from constants import VIDEO_DIMENSION
+import sys, getopt
+from colorama import Fore
 
-def clipsFileExists(clipsPath='./clips.csv'):
-  if exists(clipsPath):
-    return True
-  print(Fore.RED + 'You are mising clips.csv file')
-  print(Fore.BLUE + 'Creating clips.csv file...')
-  copyfile('./templates/clips.csv', clipsPath)
-  print(Fore.YELLOW + 'Please, fill clips.csv file and run the program again')
-  return False
-
-def getClipsData(clipsPath='./clips.csv'):
-  clipsData = pd.read_csv(clipsPath)
-  return clipsData.values
-
-def main():
+def generateReels():
   if (not clipsFileExists()):
     return
   baseVideo = VideoFileClip("test-video.mp4")
@@ -29,5 +15,22 @@ def main():
   clipsInfo = createClips(resizedVideo, clipsData)
   reelsInfo = createReels(clipsInfo, endVideo)
   saveClips(reelsInfo)
+
+def main():
+  try:
+    short_options = "c:g:"
+    long_options = ["create", "generate"]
+    args, _ = getopt.getopt(sys.argv[1:], short_options, long_options)
+
+    for arg, value in args:
+      if arg == "-c" or arg == "--create":
+          # Handle create option
+          print("Create option specified")
+      elif arg == "-g" or arg == "--generate":
+        # Handle generate option
+        print("Generate option specified with value:", value)
+
+  except Exception as e:
+     print(Fore.RED + 'Error: This option is not valid: ' + str(e))
 
 main()

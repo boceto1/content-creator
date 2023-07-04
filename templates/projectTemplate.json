@@ -1,0 +1,25 @@
+{
+  "projectName": "Default Project",
+  "baseVideo": "./test-video.mp4",
+  "endClip": "./templates/endVideo.mp4",
+  "styles": {
+    "backgroundColor": "#1E1E1E",
+    "text": {
+      "general": {
+        "font": "./resources/OpenSans-ExtraBold.ttf",
+        "color": "ffffff"
+      },
+      "footer":  {
+        "font": "./resources/BebasNeue-Regular.ttf",
+        "color": "#fbbc09"
+      }
+    }
+  },
+  "clips": [
+    {
+      "name": "De drones a developer",
+      "time": [831, 950],
+      "text": ["Top Text", "Bottom Text"]
+    }
+  ]
+}
