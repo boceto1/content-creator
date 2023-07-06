@@ -43,3 +43,4 @@ def getBottomTextClip(text):
 
 # You can use MOCK CLIP in the following way: MOCK_CLIP.set_duration(clipDuration).set_position(("center","center")).set_start(0),
 MOCK_CLIP = ColorClip(size =(VIDEO_DIMENSION[0], VIDEO_DIMENSION[1]), color =[255,255,255])
+MOCK_DEFAULT_DURATION = 2
