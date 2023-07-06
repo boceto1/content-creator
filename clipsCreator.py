@@ -1,7 +1,7 @@
 from utils import toCamelCase, createOutDir
 from colorama import Fore
 from moviepy.editor import *
-from constants import FOOTER_TEXT, REELS_DIMENSION, VIDEO_DIMENSION, getTopTextClip, getBottomTextClip
+from constants import getFooterText, REELS_DIMENSION, VIDEO_DIMENSION, getTopTextClip, getBottomTextClip
 
 def createClip(baseVideo, clipData):
   startTime, endTime = clipData['time']
@@ -19,7 +19,7 @@ def createReel(clipWithInfo, endVideo):
 
   baseVideoShape = ColorClip(size =(REELS_DIMENSION[0], REELS_DIMENSION[1]), color =[30, 30, 30], duration=clipDuration)
 
-  footerText = FOOTER_TEXT.set_duration(clipDuration)
+  footerText = getFooterText().set_duration(clipDuration)
   topTextClip = getTopTextClip(topText).set_duration(clipDuration)
   bottomTextClip = getBottomTextClip(bottomText).set_duration(clipDuration)
 

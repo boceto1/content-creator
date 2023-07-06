@@ -1,29 +1,27 @@
 from moviepy.editor import TextClip, ColorClip
 from utils import addWordSpacing
+from GlobalStyles import GlobalStyles
 
-BEBAS_NEUE_FONT = './resources/BebasNeue-Regular.ttf'
-OPEN_SANS_EXTRA_BOLD_FONT = './resources/OpenSans-ExtraBold.ttf'
+def getFooterText():
+  styles = GlobalStyles.get_instance()
+  font, color = styles.footerText['font'], styles.footerText['color']
 
-FOOTER_TEXT_COLOR = "#fbbc09"
-INFORMATION_TEXT_COLOR = "#ffffff"
-
-def _getFooterText():
   footerText = addWordSpacing('Experiences 404', 6)
-  textClip = TextClip(footerText, font = BEBAS_NEUE_FONT, fontsize = 47.5, color = FOOTER_TEXT_COLOR)
+  textClip = TextClip(footerText, font = font, fontsize = 47.5, color = color)
   textClip = textClip.set_position(("center","bottom"))
   return textClip
-
-FOOTER_TEXT = _getFooterText()
 
 REELS_DIMENSION = [1080, 1920]
 
 VIDEO_DIMENSION = [1080, 608]
 
 def getTopTextClip(text): 
+  styles = GlobalStyles.get_instance()
+  font, color = styles.generalText['font'], styles.generalText['color']
   return TextClip(
     text,
-    font = OPEN_SANS_EXTRA_BOLD_FONT,
-    fontsize = 60, color = INFORMATION_TEXT_COLOR,
+    font = font,
+    fontsize = 60, color = color,
     method='caption',
     align='West',
     size=(756,300),
@@ -31,10 +29,12 @@ def getTopTextClip(text):
   ).set_position((0.1,0.1), relative=True)
 
 def getBottomTextClip(text):
+  styles = GlobalStyles.get_instance()
+  font, color = styles.generalText['font'], styles.generalText['color']
   return TextClip(
     text,
-    font = OPEN_SANS_EXTRA_BOLD_FONT,
-    fontsize = 60, color = INFORMATION_TEXT_COLOR,
+    font = font,
+    fontsize = 60, color = color,
     method='caption',
     align='East',
     size=(756,300),

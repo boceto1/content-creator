@@ -10,12 +10,12 @@ def toCamelCase(string):
 def addWordSpacing(string, spacing=1):
     return (" "*spacing).join(list(string))
 
-def hex_to_rgb(hex_code):
-    hex_code = hex_code.lstrip("#")  # Remove the '#' symbol if present
-    red = int(hex_code[0:2], 16)  # Extract and convert the red component
-    green = int(hex_code[2:4], 16)  # Extract and convert the green component
-    blue = int(hex_code[4:6], 16)  # Extract and convert the blue component
-    return (red, green, blue)  # Return the RGB values as a tuple
+def hexToRgb(hexCode):
+    hexCode = hexCode.lstrip("#")  # Remove the '#' symbol if present
+    red = int(hexCode[0:2], 16)  # Extract and convert the red component
+    green = int(hexCode[2:4], 16)  # Extract and convert the green component
+    blue = int(hexCode[4:6], 16)  # Extract and convert the blue component
+    return [red, green, blue]  # Return the RGB values as a tuple
 
 def createOutDir(outDirPath):
   if path.exists(outDirPath):

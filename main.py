@@ -2,6 +2,7 @@ from clipsCreator import generateReels
 from infoLoader import createProjectFile, loadProjectFile
 import sys, getopt
 from colorama import Fore
+from GlobalStyles import GlobalStyles
 
 def main():
   try:
@@ -14,7 +15,9 @@ def main():
         createProjectFile(value)
         return
       elif arg == "-g" or arg == "--generate":
-        projectData = loadProjectFile(value)
+        projectData = loadProjectFile(value)    
+        styles = projectData['styles'] if 'styles' in projectData else {}
+        GlobalStyles.get_instance(styles)
         generateReels(projectData)
         return
 
