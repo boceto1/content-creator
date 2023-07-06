@@ -6,19 +6,20 @@ from GlobalStyles import GlobalStyles
 
 def main():
   try:
-    short_options = "c:g:"
-    long_options = ["create", "generate"]
+    short_options = "c:g:p:"
+    long_options = ["create", "generate", "preview"]
     args, _ = getopt.getopt(sys.argv[1:], short_options, long_options)
 
     for arg, value in args:
       if arg == "-c" or arg == "--create":
         createProjectFile(value)
         return
-      elif arg == "-g" or arg == "--generate":
+      elif arg == "-g" or arg == "--generate" or arg == "-p" or arg == "--preview":
         projectData = loadProjectFile(value)    
         styles = projectData['styles'] if 'styles' in projectData else {}
         GlobalStyles.get_instance(styles)
-        generateReels(projectData)
+        isPreview = arg == "-p" or arg == "--preview" 
+        generateReels(projectData, isPreview)
         return
 
   except Exception as e:
