@@ -52,15 +52,15 @@ def createReels(reelsInfo, isPreview):
   reels = map(lambda clipWithInfo: createReel(clipWithInfo, endClip, footerText, isPreview), clipsWithInfo)
   return reels
 
-def saveClips(projectName, clipsInfo, reels):
-  dirName = toCamelCase(projectName)
-  createOutDir(f'./{dirName}')
+def saveClips(projectName, clipsInfo, reels, outDir='.'):
+  dirName = f'{outDir}/{toCamelCase(projectName)}'
+  createOutDir(dirName)
   for index, reel in enumerate(reels):
     clipInfo = clipsInfo[index]
     fileName = toCamelCase(clipInfo['name'])
     print(Fore.BLUE + 'Creating ' + f"{index + 1}_{fileName}")
     print(Fore.WHITE)
-    reel.write_videofile(f"./{dirName}/{index +1}_{fileName}.mp4", fps=30)
+    reel.write_videofile(f"{dirName}/{index +1}_{fileName}.mp4", fps=30)
     print(Fore.GREEN + fileName + 'created successfully')
 
 def generateReels(projectData, isPreview):
@@ -75,4 +75,4 @@ def generateReels(projectData, isPreview):
     'footerText': projectData['footerText'],
   }
   reels = createReels(reelsInfo, isPreview)
-  saveClips(projectData['projectName'], projectData['clips'], reels)
+  saveClips(projectData['projectName'], projectData['clips'], reels, projectData['outdir'])
