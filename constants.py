@@ -2,11 +2,11 @@ from moviepy.editor import TextClip, ColorClip
 from utils import addWordSpacing
 from GlobalStyles import GlobalStyles
 
-def getFooterText():
+def getFooterText(text):
   styles = GlobalStyles.get_instance()
   font, color = styles.footerText['font'], styles.footerText['color']
 
-  footerText = addWordSpacing('Experiences 404', 6)
+  footerText = addWordSpacing(text, 6)
   textClip = TextClip(footerText, font = font, fontsize = 47.5, color = color)
   textClip = textClip.set_position(("center","bottom"))
   return textClip

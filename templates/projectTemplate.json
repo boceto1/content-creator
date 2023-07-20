@@ -1,7 +1,9 @@
 {
   "projectName": "Default Project",
   "baseVideo": "./test-video.mp4",
-  "endClip": "./templates/endVideo.mp4",
+  "endClip": "./endVideo.mp4",
+  "footerText": "Brand Name",
+  "outdir": ".",
   "styles": {
     "backgroundColor": "#1E1E1E",
     "text": {

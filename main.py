@@ -8,11 +8,12 @@ def main():
   try:
     short_options = "c:g:p:"
     long_options = ["create", "generate", "preview"]
-    args, _ = getopt.getopt(sys.argv[1:], short_options, long_options)
+    args, extraValues = getopt.getopt(sys.argv[1:], short_options, long_options)
 
     for arg, value in args:
       if arg == "-c" or arg == "--create":
-        createProjectFile(value)
+        outDir = extraValues[0] if len(extraValues) == 1 else '.'
+        createProjectFile(value, outDir)
         return
       elif arg == "-g" or arg == "--generate" or arg == "-p" or arg == "--preview":
         projectData = loadProjectFile(value)    
